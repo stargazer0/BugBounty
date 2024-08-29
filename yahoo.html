@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoC Capture Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            white-space: pre-wrap; /* Display whitespace and line breaks */
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Captured Request Data</h1>
+    <p id="output">Loading captured data...</p>
+    <script>
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function displayCapturedData() {
+            const output = document.getElementById('output');
+            const params = new URLSearchParams(window.location.search);
+            let outputText = "Captured Parameters:\n\n";
+
+            if (params.toString()) {
+                params.forEach((value, key) => {
+                    outputText += `${escapeHtml(key)}: ${escapeHtml(value)}\n`;
+                });
+            } else {
+                outputText = "No query parameters found.";
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Run the display function after the DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", displayCapturedData);
+    </script>
+</body>
+</html>
